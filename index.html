@@ -101,22 +101,19 @@
   /* ---------- Navigation ---------- */
   .nav { position: sticky; top: 0; z-index: 20; background: var(--pcb-deep); border-bottom: 1px solid rgba(232, 185, 47, .22); }
   .nav-inner { display: flex; align-items: center; gap: 1.5rem; min-height: 4rem; }
-  .nav-brand { font-stretch: 125%; font-weight: 800; color: var(--gold); text-decoration: none; letter-spacing: .02em; font-size: 1.1rem; }
-  .nav-links { display: flex; gap: .25rem; margin-inline: auto; overflow-x: auto; scrollbar-width: none; }
+  .nav-links { display: flex; gap: .25rem; flex: 1; min-width: 0; margin-left: -.7rem; overflow-x: auto; scrollbar-width: none; }
   .nav-links::-webkit-scrollbar { display: none; }
   .nav-links a {
     display: block; white-space: nowrap; padding: .5rem .7rem; font-size: .95rem;
     color: var(--silk-muted); text-decoration: none; border-radius: 6px;
   }
   .nav-links a:hover { color: var(--silk); background: rgba(242, 244, 238, .07); }
-  .nav .btn { min-height: 2.5rem; padding: .45rem 1.1rem; font-size: .95rem; }
+  .nav .btn { flex: none; min-height: 2.5rem; padding: .45rem 1.1rem; font-size: .95rem; }
 
+  /* On narrow screens the links scroll sideways; the fade hints there is more */
   @media (max-width: 860px) {
-    html { scroll-padding-top: 7rem; }
-    .nav-inner { flex-wrap: wrap; gap: 0 1rem; padding-top: .5rem; }
-    .nav-brand { order: 1; }
-    .nav .btn { order: 2; margin-left: auto; }
-    .nav-links { order: 3; width: 100%; margin: 0 calc(var(--gutter) * -1); padding: .25rem calc(var(--gutter) - .7rem) .5rem; }
+    .nav-inner { gap: .75rem; }
+    .nav-links { -webkit-mask-image: linear-gradient(to right, #000 80%, transparent); mask-image: linear-gradient(to right, #000 80%, transparent); padding-right: 1.5rem; }
   }
 
   /* ---------- Hero ---------- */
@@ -124,23 +121,45 @@
   .logos { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
   /* Replace the text wordmarks with your logo files, e.g.
      <img src="assets/craft-logo.svg" alt="CRAFT" class="logo-craft"> */
-  .logo-craft { font-stretch: 125%; font-weight: 800; font-size: 2rem; color: var(--gold); letter-spacing: .02em; line-height: 1; }
-  img.logo-craft { height: 48px; width: auto; }
-  .footer span.logo-craft { font-size: 1.5rem; }
-  .footer img.logo-craft { height: 36px; }
-  .logo-divider { width: 1px; height: 2.25rem; background: rgba(242, 244, 238, .35); }
+  /* Full-colour logos sit on a light plate, because blue and black artwork
+     disappears on dark green. With white (reversed) logo files, remove the
+     "logos-plate" class from both .logos blocks. */
+  .logos-plate { display: inline-flex; flex-wrap: nowrap; max-width: 100%; background: var(--silk); padding: .75rem 1.4rem; border-radius: 12px; }
+  /* Size logos by height only; width follows each file's own proportions,
+     and flexbox is not allowed to squeeze them */
+  .logos img { flex: none; width: auto; max-width: none; object-fit: contain; }
+  .logo-craft { font-stretch: 125%; font-weight: 800; font-size: 1.9rem; color: var(--gold); letter-spacing: .02em; line-height: 1; }
+  img.logo-craft { height: 52px; }
+  .logo-divider { width: 1px; align-self: stretch; min-height: 2.5rem; background: rgba(242, 244, 238, .35); }
   .logo-uw { font-size: .95rem; line-height: 1.2; color: var(--silk-muted); font-weight: 600; max-width: 7.5em; }
-  img.logo-uw { height: 34px; width: auto; }
+  img.logo-uw { height: 36px; }
+  .logos-plate .logo-divider { background: rgba(15, 59, 44, .22); }
+  .logos-plate span.logo-craft { color: var(--pcb); }
+  .logos-plate span.logo-uw { color: #4A5B53; }
+  .footer .logos-plate { padding: .6rem 1.1rem; }
+  .footer img.logo-craft { height: 40px; }
+  .footer img.logo-uw { height: 28px; }
+  .footer span.logo-craft { font-size: 1.5rem; }
+  @media (max-width: 480px) {
+    .logos-plate { padding: .6rem .9rem; gap: .9rem; }
+    img.logo-craft, .footer img.logo-craft { height: 38px; }
+    img.logo-uw, .footer img.logo-uw { height: 26px; }
+  }
+  @media (max-width: 370px) {
+    img.logo-craft, .footer img.logo-craft { height: 32px; }
+    img.logo-uw, .footer img.logo-uw { height: 22px; }
+  }
 
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem 3rem; align-items: end; margin-top: clamp(2.5rem, 6vw, 4rem); }
-  .hero-context { color: var(--silk-muted); font-size: 1rem; margin-bottom: 1rem; }
-  .hero-kind { color: var(--gold); font-stretch: 125%; font-weight: 700; font-size: clamp(1rem, 1.6vw, 1.25rem); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .75rem; }
+  .hero-title { margin-top: clamp(1.25rem, 3vw, 2rem); }
+  .hero-context { color: var(--silk-muted); font-size: .95rem; margin-bottom: .6rem; }
+  .hero-kind { color: var(--gold); font-stretch: 125%; font-weight: 700; font-size: 1rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .9rem; }
   .hero h1 { color: var(--silk); }
-  .hero h1 .t1 { display: block; font-size: clamp(3rem, 9vw, 6.5rem); }
-  .hero h1 .t2 { display: block; margin-top: .6rem; font-size: clamp(1.4rem, 3.2vw, 2.4rem); font-weight: 600; font-stretch: 110%; letter-spacing: 0; line-height: 1.2; color: var(--silk); }
-  .hero .lede { color: var(--silk-muted); margin-top: 1.5rem; max-width: 46ch; }
+  .hero h1 .t1 { display: block; font-size: clamp(2.75rem, 7.2vw, 5.5rem); line-height: .98; }
+  .hero h1 .t2 { display: block; margin-top: .9rem; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 600; font-stretch: 110%; letter-spacing: 0; line-height: 1.2; color: var(--silk); }
+  .hero .lede { color: var(--silk-muted); margin-top: 1.25rem; max-width: 46ch; }
 
-  .hero-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2.5rem; margin-top: 2rem; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem 3rem; align-items: end; margin-top: 2.25rem; }
+  .hero-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2.5rem; }
   .hero-meta dt { font-size: .85rem; color: var(--silk-muted); }
   .hero-meta dd { font-weight: 650; color: var(--silk); }
   .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
@@ -215,25 +234,26 @@
 
   /* How it works */
   .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; counter-reset: step; }
-  .steps li { counter-increment: step; border-top: 3px solid var(--accent); padding-top: 1.25rem; }
-  .steps li::before {
+  .steps > li { counter-increment: step; border-top: 3px solid var(--accent); padding-top: 1.25rem; }
+  .steps > li::before {
     content: counter(step, decimal-leading-zero);
     display: block; font-stretch: 125%; font-weight: 800; font-size: 2.5rem; line-height: 1; color: var(--accent); margin-bottom: 1rem;
   }
   .steps h3 { margin-bottom: .5rem; }
   .steps p { color: var(--muted); }
-  .steps ul { margin-top: .6rem; color: var(--muted); }
-  .steps ul li { border: 0; padding: 0 0 0 1rem; position: relative; counter-increment: none; margin-top: .3rem; }
-  .steps ul li::before { content: ""; position: absolute; left: 0; top: .65em; width: 6px; height: 6px; background: var(--accent); border-radius: 1px; margin: 0; }
+  .steps ul { margin-top: .5rem; color: var(--muted); }
+  .steps ul li { position: relative; padding-left: 1.1rem; margin-top: .35rem; line-height: 1.5; }
+  /* bullet centred on the first line: half the line-height minus half the bullet */
+  .steps ul li::before { content: ""; position: absolute; left: .1rem; top: calc(.75em - 3px); width: 6px; height: 6px; background: var(--accent); border-radius: 1px; }
   @media (max-width: 960px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 2rem; } }
   @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
 
   /* Takeaways */
-  .takeaways li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: .5rem 3rem; align-items: baseline; padding-block: 1.6rem; border-top: 1px solid var(--rule); }
+  .takeaways li { display: grid; grid-template-columns: clamp(12rem, 28vw, 21rem) minmax(0, 1fr); gap: .35rem 2.5rem; align-items: center; padding-block: 1.35rem; border-top: 1px solid var(--rule); }
   .takeaways li:last-child { border-bottom: 1px solid var(--rule); }
-  .takeaways .verb { font-size: clamp(2.2rem, 5.5vw, 4rem); color: var(--accent); }
-  .takeaways p { font-size: 1.15rem; }
-  @media (max-width: 720px) { .takeaways li { grid-template-columns: 1fr; } }
+  .takeaways .verb { font-size: clamp(1.9rem, 3.6vw, 2.75rem); line-height: 1.05; color: var(--accent); }
+  .takeaways p { font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.45; max-width: 44ch; text-wrap: pretty; }
+  @media (max-width: 720px) { .takeaways li { grid-template-columns: 1fr; padding-block: 1.1rem; } }
 
   /* Audience */
   .audience-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 2.5rem 4rem; align-items: start; }
@@ -318,7 +338,6 @@
 <!-- 1. Fast links -->
 <header class="nav on-dark">
   <div class="wrap nav-inner">
-    <a class="nav-brand" href="#top">CRAFT</a>
     <nav class="nav-links" aria-label="Page sections">
       <a href="#about">About</a>
       <a href="#how">How it works</a>
@@ -337,22 +356,24 @@
   <!-- 2. Hero -->
   <section class="hero on-dark" id="top" aria-labelledby="title">
     <div class="wrap">
-      <div class="logos">
+      <div class="logos logos-plate">
         <img src="assets/craft-logo.png" alt="CRAFT" class="logo-craft" data-fallback="logo-craft">
         <span class="logo-divider" aria-hidden="true"></span>
         <img src="assets/uwaterloo-logo.png" alt="University of Waterloo" class="logo-uw" data-fallback="logo-uw">
       </div>
 
+      <div class="hero-title">
+        <p class="hero-context">A CRAFT session at <span data-fill="conference">INCYBER 2026</span></p>
+        <p class="hero-kind">Tabletop exercise</p>
+        <h1 id="title" class="display">
+          <span class="t1">Broken Chains</span>
+          <span class="t2">Malicious Actors in the Supply Chain</span>
+        </h1>
+        <p class="lede">A 2-hour interactive simulation of hardware and firmware supply-chain attacks.</p>
+      </div>
+
       <div class="hero-grid">
         <div>
-          <p class="hero-context">A CRAFT session at <span data-fill="conference">[Conference name]</span></p>
-          <p class="hero-kind">Tabletop exercise</p>
-          <h1 id="title" class="display">
-            <span class="t1">Broken Chains</span>
-            <span class="t2">Malicious Actors in the Supply Chain</span>
-          </h1>
-          <p class="lede">A 2-hour interactive simulation of hardware and firmware supply-chain attacks.</p>
-
           <dl class="hero-meta">
             <div><dt>Date</dt><dd data-fill="date">[Date]</dd></div>
             <div><dt>Time</dt><dd data-fill="time">[Start–end time]</dd></div>
@@ -476,7 +497,7 @@
       </div>
       <ul class="takeaways">
         <li><span class="verb display">Recognize</span><p>the types of supply-chain attacks that target hardware and firmware IP.</p></li>
-        <li><span class="verb display">Counter</span><p>them with knowledge of current state-of-the-art defences.</p></li>
+        <li><span class="verb display">Counter</span><p>them with knowledge of current state‑of‑the‑art defences.</p></li>
         <li><span class="verb display">Assess</span><p>the gaps in your own company’s practices and guidelines.</p></li>
         <li><span class="verb display">Understand</span><p>the security models that keep a supply chain trustworthy.</p></li>
       </ul>
@@ -616,7 +637,7 @@
   <div class="wrap">
     <div class="footer-top">
       <p class="footer-contact">Questions? Write to us at <a href="#" data-fill="email" data-mail>[contact email]</a></p>
-      <div class="logos">
+      <div class="logos logos-plate">
         <img src="assets/craft-logo.png" alt="CRAFT" class="logo-craft" data-fallback="logo-craft">
         <span class="logo-divider" aria-hidden="true"></span>
         <img src="assets/uwaterloo-logo.png" alt="University of Waterloo" class="logo-uw" data-fallback="logo-uw">
