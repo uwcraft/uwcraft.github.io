@@ -8,7 +8,8 @@
 <meta property="og:title" content="Broken Chains: Malicious Actors in the Supply Chain">
 <meta property="og:description" content="A 2-hour interactive simulation of hardware and firmware supply-chain attacks. Presented by CRAFT, University of Waterloo.">
 <meta name="theme-color" content="#0F3B2C">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230F3B2C'/%3E%3Crect x='8' y='22' width='26' height='20' rx='10' fill='none' stroke='%23E8B92F' stroke-width='5'/%3E%3Cpath d='M38 22h8a10 10 0 0 1 0 20h-8' fill='none' stroke='%23E0533C' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/site-logo.png">
+<link rel="apple-touch-icon" href="assets/site-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
@@ -117,7 +118,15 @@
   }
 
   /* ---------- Hero ---------- */
-  .hero { background: var(--pcb); padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem); overflow: hidden; }
+  /* The hero fills the first screen below the menu: top block, chain, bottom block.
+     The chain band takes all spare height, so it stays the centre of the screen. */
+  .hero {
+    background: var(--pcb); overflow: hidden;
+    display: flex; flex-direction: column;
+    min-height: calc(100vh - 4rem); min-height: calc(100svh - 4rem);
+    padding-block: clamp(1.5rem, 3.5vh, 2.5rem) clamp(1.75rem, 4vh, 3rem);
+  }
+  .hero > .wrap { width: 100%; }
   .logos { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
   /* Replace the text wordmarks with your logo files, e.g.
      <img src="assets/craft-logo.svg" alt="CRAFT" class="logo-craft"> */
@@ -154,15 +163,15 @@
   .hero-context { color: var(--silk-muted); font-size: .95rem; margin-bottom: .6rem; }
   .hero-kind { color: var(--gold); font-stretch: 125%; font-weight: 700; font-size: 1rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .9rem; }
   .hero h1 { color: var(--silk); }
-  .hero h1 .t1 { display: block; font-size: clamp(2.75rem, 7.2vw, 5.5rem); line-height: .98; }
+  .hero h1 .t1 { display: block; font-size: clamp(2.75rem, min(7vw, 10vh), 5.25rem); line-height: .98; }
   .hero h1 .t2 { display: block; margin-top: .9rem; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 600; font-stretch: 110%; letter-spacing: 0; line-height: 1.2; color: var(--silk); }
-  .hero .lede { color: var(--silk-muted); margin-top: 1.25rem; max-width: 46ch; }
+  .hero .lede { color: var(--silk-muted); margin-top: 1rem; max-width: 70ch; }
 
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem 3rem; align-items: end; margin-top: 2.25rem; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem 3rem; align-items: end; }
   .hero-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2.5rem; }
   .hero-meta dt { font-size: .85rem; color: var(--silk-muted); }
   .hero-meta dd { font-weight: 650; color: var(--silk); }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
 
   .countdown { border: 1px solid rgba(232, 185, 47, .4); border-radius: 14px; padding: 1.25rem 1.5rem; min-width: 18rem; }
   .countdown[hidden] { display: none; }
@@ -177,35 +186,40 @@
     .hero-grid { grid-template-columns: 1fr; }
     .countdown { min-width: 0; max-width: 24rem; }
   }
+  /* Shorter laptop screens: tighten the hero so it still fits in one screen */
+  @media (min-width: 861px) and (max-height: 820px) {
+    .logos-plate { padding: .55rem 1.1rem; }
+    .hero-title { margin-top: 1rem; }
+    .hero-kind { margin-bottom: .6rem; }
+    .hero h1 .t2 { margin-top: .6rem; }
+    .hero-actions { margin-top: 1.1rem; }
+    .countdown { padding: 1rem 1.25rem; }
+  }
+  /* Phones: compact label/value rows so the buttons stay on the first screen */
   @media (max-width: 560px) {
-    .hero-meta { grid-template-columns: 1fr; }
+    .hero-meta { grid-template-columns: 1fr; gap: .4rem; }
+    .hero-meta > div { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); align-items: baseline; }
+    .hero-actions { margin-top: 1.25rem; }
   }
 
-  /* The chain */
-  .chain { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
-  .chain svg { width: 100%; height: auto; display: block; overflow: visible; }
+  /* The chain: a full-bleed band that runs off both edges of the screen.
+     "slice" keeps a fixed height and crops the sides, so the broken link
+     (always in the middle) stays large on every screen size. */
+  .chain { flex: 1 0 auto; display: flex; align-items: center; margin: clamp(1.25rem, 4.5vh, 3.5rem) 0; }
+  .chain svg { display: block; width: 100%; height: clamp(64px, min(11vw, 15vh), 150px); overflow: visible; }
   .chain .link { fill: none; stroke: var(--gold); stroke-width: 12; }
   .chain .bar { fill: var(--gold); stroke: var(--pcb); stroke-width: 5; }
   .chain .broken { fill: none; stroke: var(--alert); stroke-width: 12; transform-box: fill-box; transform-origin: center; }
   .chain .broken.left { transform: translate(-7px, -5px) rotate(-7deg); }
   .chain .broken.right { transform: translate(9px, 7px) rotate(8deg); }
-  .chain text { fill: var(--silk-muted); font-family: var(--font); font-size: 19px; font-weight: 600; text-anchor: middle; }
-  .chain text.hit { fill: var(--alert); }
-  .chain-caption { display: none; }
   @keyframes snap { from { transform: none; } }
   @media (prefers-reduced-motion: no-preference) {
     .chain .broken { animation: snap .45s cubic-bezier(.2, 1.6, .4, 1) 1s both; }
   }
-  @media (max-width: 640px) {
-    .chain text { display: none; }
-    .chain-caption { display: flex; flex-wrap: wrap; gap: .25rem .6rem; margin-top: 1rem; font-size: .9rem; color: var(--silk-muted); }
-    .chain-caption li:not(:last-child)::after { content: "›"; margin-left: .6rem; opacity: .6; }
-    .chain-caption .hit { color: var(--alert); font-weight: 650; }
-  }
 
   /* ---------- Quick facts ---------- */
   .facts { background: var(--surface); border-bottom: 1px solid var(--rule); }
-  .facts dl { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .facts dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .facts dl > div { padding: 1.4rem 1.25rem 1.4rem 0; }
   .facts dl > div + div { padding-left: 1.25rem; border-left: 1px solid var(--rule); }
   .facts dt { font-size: .85rem; color: var(--muted); }
@@ -274,7 +288,8 @@
   .presenter h3 { font-size: clamp(1.6rem, 3vw, 2.1rem); font-stretch: 118%; font-weight: 750; line-height: 1.15; }
   .presenter .role { color: var(--muted); margin-top: .5rem; }
   .presenter .bio { margin-top: 1.5rem; }
-  .presenter .email { display: inline-block; margin-top: 1.5rem; font-weight: 650; color: var(--accent); text-underline-offset: .2em; }
+  .presenter-links { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: 1.5rem; }
+  .presenter-links a { font-weight: 650; color: var(--accent); text-underline-offset: .2em; }
   @media (max-width: 760px) { .presenter { grid-template-columns: 1fr; } .portrait { max-width: 260px; } }
 
   /* Team */
@@ -355,7 +370,7 @@
 
   <!-- 2. Hero -->
   <section class="hero on-dark" id="top" aria-labelledby="title">
-    <div class="wrap">
+    <div class="wrap hero-top">
       <div class="logos logos-plate">
         <img src="assets/craft-logo.png" alt="CRAFT" class="logo-craft" data-fallback="logo-craft">
         <span class="logo-divider" aria-hidden="true"></span>
@@ -371,7 +386,33 @@
         </h1>
         <p class="lede">A 2-hour interactive simulation of hardware and firmware supply-chain attacks.</p>
       </div>
+    </div>
 
+    <figure class="chain" style="margin-inline:0">
+      <svg viewBox="0 0 2140 120" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="chain-title">
+        <title id="chain-title">Scenario inject: one link in your hardware supply chain has been compromised. Identify it, contain it, recover.</title>
+          <rect class="link" x="10" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="250" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="490" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="730" y="20" width="200" height="80" rx="40"/>
+          <path class="broken left" d="M1058 20H1010a40 40 0 0 0 0 80h48"/>
+          <path class="broken right" d="M1082 20h48a40 40 0 0 1 0 80h-48"/>
+          <rect class="link" x="1210" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="1450" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="1690" y="20" width="200" height="80" rx="40"/>
+          <rect class="link" x="1930" y="20" width="200" height="80" rx="40"/>
+          <rect class="bar" x="155" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="395" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="635" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="875" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="1115" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="1355" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="1595" y="52" width="150" height="16" rx="8"/>
+          <rect class="bar" x="1835" y="52" width="150" height="16" rx="8"/>
+      </svg>
+    </figure>
+
+    <div class="wrap hero-bottom">
       <div class="hero-grid">
         <div>
           <dl class="hero-meta">
@@ -397,32 +438,6 @@
           <p class="countdown-message" id="countdown-message" hidden></p>
         </div>
       </div>
-
-      <figure class="chain" style="margin-inline:0">
-        <svg viewBox="0 0 1180 150" role="img" aria-labelledby="chain-title">
-          <title id="chain-title">A five-link supply chain: design, fabrication, integration, firmware and distribution. The firmware link is broken.</title>
-          <!-- outline links -->
-          <rect class="link" x="10"  y="20" width="200" height="80" rx="40"/>
-          <rect class="link" x="250" y="20" width="200" height="80" rx="40"/>
-          <rect class="link" x="490" y="20" width="200" height="80" rx="40"/>
-          <path class="broken left"  d="M818 20H770a40 40 0 0 0 0 80h48"/>
-          <path class="broken right" d="M842 20h48a40 40 0 0 1 0 80h-48"/>
-          <rect class="link" x="970" y="20" width="200" height="80" rx="40"/>
-          <!-- edge-on links joining them -->
-          <rect class="bar" x="155" y="52" width="150" height="16" rx="8"/>
-          <rect class="bar" x="395" y="52" width="150" height="16" rx="8"/>
-          <rect class="bar" x="635" y="52" width="150" height="16" rx="8"/>
-          <rect class="bar" x="875" y="52" width="150" height="16" rx="8"/>
-          <text x="110"  y="140">Design</text>
-          <text x="350"  y="140">Fabrication</text>
-          <text x="590"  y="140">Integration</text>
-          <text x="830"  y="140" class="hit">Firmware</text>
-          <text x="1070" y="140">Distribution</text>
-        </svg>
-        <ol class="chain-caption" aria-hidden="true">
-          <li>Design</li><li>Fabrication</li><li>Integration</li><li class="hit">Firmware</li><li>Distribution</li>
-        </ol>
-      </figure>
     </div>
   </section>
 
@@ -432,7 +447,6 @@
       <dl>
         <div><dt>Length</dt><dd>120 minutes</dd></div>
         <div><dt>Format</dt><dd>Interactive, team-based</dd></div>
-        <div><dt>Team size</dt><dd>Up to 10 people</dd></div>
         <div><dt>Preparation</dt><dd>None needed</dd></div>
         <div><dt>Best for</dt><dd>Decision makers and managers</dd></div>
       </dl>
@@ -517,7 +531,10 @@
           <p class="role">Professor, University of Waterloo<br>Lead, Real-time Embedded Software Group</p>
           <p class="bio">Sebastian researches the safety and security of safety-critical systems in the automotive, medical, aerospace, energy and defence sectors. His current focus is physics-based cybersecurity and zero-trust supply chains, which he brings to market through his spin-off company, Palitronica.</p>
           <p class="bio">He is a licensed Professional Engineer in Canada, contributes to international standards through SAE G-19/G-32, and helps develop security guidelines with MITRE. His research and commercialization work have earned several international awards.</p>
-          <a class="email" href="mailto:sfischme@uwaterloo.ca">sfischme@uwaterloo.ca</a>
+          <p class="presenter-links">
+            <a href="https://uwaterloo.ca/embedded-software-group/profiles/sebastian-fischmeister" target="_blank" rel="noopener">Full profile at the Embedded Software Group</a>
+            <a href="mailto:sfischme@uwaterloo.ca">sfischme@uwaterloo.ca</a>
+          </p>
         </div>
       </div>
     </div>
@@ -532,7 +549,7 @@
       </div>
       <ul class="team-grid">
         <li class="member">
-          <div class="portrait" data-initials="YH"><img src="assets/hu.jpg" alt="Yue Hu"></div>
+          <div class="portrait" data-initials="YH"><img src="assets/yue.jpg" alt="Yue Hu"></div>
           <h3>Dr. Yue Hu</h3>
           <p class="member-role">Co-lead, CRAFT</p>
           <p class="member-dept">Mechanical and Mechatronics Engineering, University of Waterloo</p>
@@ -616,7 +633,7 @@
     <div class="wrap register-grid">
       <div class="section-head">
         <h2 id="register-title">Save your seat</h2>
-        <p class="measure">Participants are grouped into teams of up to 10, so register early to secure your place.</p>
+        <p class="measure">The exercise is hands-on and team-based, so register early to secure your place.</p>
       </div>
       <div class="details">
         <dl>
@@ -660,8 +677,8 @@
     durationMinutes: 120,
     timeZone: "America/Toronto",
     timeZoneLabel: "ET",
-    venue: "[Room, venue, city]",
-    registerUrl: "",                        // e.g. "https://forms.example.com/broken-chains"
+    venue: "Rogers Centre Ottawa",
+    registerUrl: "https://www.eventbrite.com/e/broken-chains-malicious-actors-in-the-supply-chain-tabletop-exercise-tickets-2004149566303",                        // e.g. "https://forms.example.com/broken-chains"
     email: "craftq1@uwaterloo.ca",
     craftUrl: ""                            // link for "Learn more about CRAFT"
   };
