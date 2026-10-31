@@ -293,12 +293,13 @@
   @media (max-width: 760px) { .presenter { grid-template-columns: 1fr; } .portrait { max-width: 260px; } }
 
   /* Team */
-  .team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+  .team-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2.5rem 1.75rem; }
   .member .portrait { aspect-ratio: 1 / 1; --initials: 3rem; }
   .member h3 { margin-top: 1.1rem; }
   .member .member-role { font-weight: 500; margin-top: .2rem; }
   .member .member-dept { color: var(--muted); font-size: .95rem; margin-top: .2rem; line-height: 1.45; }
-  @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 420px) { .team-grid { grid-template-columns: 1fr; } .member .portrait { max-width: 240px; } }
 
   /* CRAFT */
@@ -390,7 +391,7 @@
 
     <figure class="chain" style="margin-inline:0">
       <svg viewBox="0 0 2140 120" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="chain-title">
-        <title id="chain-title">Scenario inject: one link in your hardware supply chain has been compromised. Identify it, contain it, recover.</title>
+        <title id="chain-title"></title>
           <rect class="link" x="10" y="20" width="200" height="80" rx="40"/>
           <rect class="link" x="250" y="20" width="200" height="80" rx="40"/>
           <rect class="link" x="490" y="20" width="200" height="80" rx="40"/>
@@ -555,22 +556,28 @@
           <p class="member-dept">Mechanical and Mechatronics Engineering, University of Waterloo</p>
         </li>
         <li class="member">
-          <div class="portrait" data-initials="RA"><img src="assets/ra-1.jpg" alt="[Name]"></div>
-          <h3>[Name]</h3>
-          <p class="member-role">Research assistant, CRAFT</p>
-          <p class="member-dept">[Program and department]</p>
+          <div class="portrait" data-initials="MP"><img src="assets/ra-1.jpg" alt="Marko Puskar"></div>
+          <h3>Marko Puskar</h3>
+          <p class="member-role">MASc Researcher, ESG Lab</p>
+          <p class="member-dept">Electrical and Computer Engineering, University of Waterloo</p>
         </li>
         <li class="member">
-          <div class="portrait" data-initials="RA"><img src="assets/ra-2.jpg" alt="[Name]"></div>
-          <h3>[Name]</h3>
-          <p class="member-role">Research assistant, CRAFT</p>
-          <p class="member-dept">[Program and department]</p>
+          <div class="portrait" data-initials="MH"><img src="assets/ra-2.jpg" alt="Mayukh Haldar"></div>
+          <h3>Mayukh Haldar</h3>
+          <p class="member-role">MASc Researcher, ESG Lab</p>
+          <p class="member-dept">Electrical and Computer Engineering, University of Waterloo</p>
         </li>
         <li class="member">
-          <div class="portrait" data-initials="RA"><img src="assets/ra-3.jpg" alt="[Name]"></div>
-          <h3>[Name]</h3>
+          <div class="portrait" data-initials="OV"><img src="assets/ra-3.jpg" alt="Olha Vakulenko"></div>
+          <h3>Olha Vakulenko</h3>
           <p class="member-role">Research assistant, CRAFT</p>
-          <p class="member-dept">[Program and department]</p>
+          <p class="member-dept">Electrical and Computer Engineering, University of Waterloo</p>
+        </li>
+        <li class="member">
+          <div class="portrait" data-initials="RA"><img src="assets/ra-4.jpg" alt="Amr Shoker"></div>
+          <h3>Amr Shoker</h3>
+          <p class="member-role">Research assistant, CRAFT</p>
+          <p class="member-dept">Mechanical and Mechatronics Engineering, University of Waterloo</p>
         </li>
       </ul>
     </div>
@@ -673,10 +680,10 @@
      ========================================================= */
   const CONFIG = {
     conference: "INCYBER 2026",
-    start: "2026-12-03T13:00:00-05:00",   // session start, ISO format with UTC offset (-05:00 = Eastern Standard Time)
+    start: "2026-12-03T10:00:00-05:00",   // session start, ISO format with UTC offset (-05:00 = Eastern Standard Time)
     durationMinutes: 120,
     timeZone: "America/Toronto",
-    timeZoneLabel: "ET",
+    timeZoneLabel: "EST",
     venue: "Rogers Centre Ottawa",
     registerUrl: "https://www.eventbrite.com/e/broken-chains-malicious-actors-in-the-supply-chain-tabletop-exercise-tickets-2004149566303",                        // e.g. "https://forms.example.com/broken-chains"
     email: "craftq1@uwaterloo.ca",
