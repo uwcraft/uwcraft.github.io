@@ -6,7 +6,7 @@
 <title>Broken Chains: Malicious Actors in the Supply Chain | CRAFT tabletop exercise</title>
 <meta name="description" content="A 2-hour interactive tabletop exercise on hardware and firmware supply-chain attacks, led by Prof. Sebastian Fischmeister. Presented by CRAFT, University of Waterloo.">
 <meta property="og:title" content="Broken Chains: Malicious Actors in the Supply Chain">
-<meta property="og:description" content="A 2-hour interactive exercise of hardware and firmware supply-chain attacks. Presented by CRAFT, University of Waterloo.">
+<meta property="og:description" content="A 2-hour interactive tabletop exercise on hardware and firmware supply-chain attacks, at INCYBER 2026 in Ottawa. Presented by CRAFT, University of Waterloo.">
 <meta name="theme-color" content="#0F3B2C">
 <link rel="icon" type="image/png" href="assets/site-logo.png">
 <link rel="apple-touch-icon" href="assets/site-logo.png">
@@ -159,6 +159,8 @@
 
   .hero-title { margin-top: clamp(1.25rem, 3vw, 2rem); }
   .hero-context { color: var(--silk-muted); font-size: .95rem; margin-bottom: .6rem; }
+  .hero-context a { text-underline-offset: .2em; }
+  .hero-context a:hover { color: var(--silk); }
   /* Solid gold label so the format is the first thing people read */
   .hero-kind { display: inline-block; background: var(--gold); color: var(--pcb-deep); font-stretch: 125%; font-weight: 800; font-size: clamp(1.05rem, 1.7vw, 1.4rem); line-height: 1.2; letter-spacing: .07em; text-transform: uppercase; padding: .45rem 1rem .5rem; border-radius: 6px; margin-bottom: 1.1rem; }
   .hero h1 { color: var(--silk); }
@@ -322,6 +324,13 @@
   /* Register */
   .register-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 2.5rem 4rem; align-items: start; }
   .register-grid .section-head { margin-bottom: 0; }
+  /* Two-step note: conference registration first, then the session seat */
+  .access-note { margin-top: 1.75rem; background: var(--surface); border-left: 4px solid var(--accent); padding: 1.25rem 1.5rem; border-radius: 0 10px 10px 0; }
+  .access-note h3 { margin-bottom: .6rem; }
+  .access-note ol { list-style: decimal; padding-left: 1.2rem; color: var(--muted); }
+  .access-note li + li { margin-top: .6rem; }
+  .access-note strong { color: var(--ink); }
+  .access-note a { color: var(--accent); font-weight: 650; text-underline-offset: .2em; }
   .details { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: .5rem 1.75rem 1.75rem; }
   .details dl div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); }
   .details dt { color: var(--muted); }
@@ -380,7 +389,7 @@
       </div>
 
       <div class="hero-title">
-        <p class="hero-context">A CRAFT session at <span data-fill="conference">INCYBER 2026</span></p>
+        <p class="hero-context">A CRAFT session at <a href="https://canada.forum-incyber.com/" data-incyber-link><span data-fill="conference">INCYBER 2026</span></a></p>
         <p class="hero-kind">Tabletop exercise</p>
         <h1 id="title" class="display">
           <span class="t1">Broken Chains</span>
@@ -448,7 +457,7 @@
       <dl>
         <div><dt>Length</dt><dd>120 minutes</dd></div>
         <div><dt>Format</dt><dd>Interactive, team-based</dd></div>
-        <div><dt>Preparation</dt><dd>None needed</dd></div>
+        <div><dt>Admission</dt><dd>INCYBER 2026 registration</dd></div>
         <div><dt>Best for</dt><dd>Decision makers and managers</dd></div>
       </dl>
     </div>
@@ -607,7 +616,7 @@
         </div>
         <div class="note">
           <h3>Prerequisites</h3>
-          <p>None. Just bring your judgment.</p>
+          <p>No technical background needed. You’ll need INCYBER 2026 registration to enter the venue.</p>
         </div>
       </div>
     </div>
@@ -645,12 +654,20 @@
       <div class="section-head">
         <h2 id="register-title">Save your seat</h2>
         <p class="measure">The exercise is hands-on and team-based, so register early to secure your place.</p>
+
+        <div class="access-note">
+          <h3>Two registrations needed</h3>
+          <ol>
+            <li><strong>Register for INCYBER 2026.</strong> This session is part of the conference, so you need conference registration to enter the venue. <a href="https://canada.forum-incyber.com/" data-incyber-link>Register for INCYBER</a></li>
+            <li><strong>Reserve your seat in this exercise.</strong> This is a separate registration for the tabletop session only.</li>
+          </ol>
+        </div>
       </div>
       <div class="details">
         <dl>
           <div><dt>Date</dt><dd data-fill="date">[Date]</dd></div>
           <div><dt>Time</dt><dd><span data-fill="time">[Start–end time]</span> (120 minutes)</dd></div>
-          <div><dt>Location</dt><dd data-fill="venue">[Room, building, address]</dd></div>
+          <div><dt>Location</dt><dd><span data-fill="venue">[Room, building, address]</span>, at the <span data-fill="conference">INCYBER 2026</span> conference</dd></div>
           <div><dt>What to bring</dt><dd>Nothing. No preparation required.</dd></div>
         </dl>
         <a class="btn btn-primary" href="#register" data-register>Register now</a>
@@ -684,6 +701,7 @@
      ========================================================= */
   const CONFIG = {
     conference: "INCYBER 2026",
+    incyberUrl: "https://canada.forum-incyber.com/",   // conference registration / info page
     start: "2026-12-03T10:00:00-05:00",   // session start, ISO format with UTC offset (-05:00 = Eastern Standard Time)
     durationMinutes: 120,
     timeZone: "America/Toronto",
@@ -740,6 +758,11 @@
     if (craft) {
       if (CONFIG.craftUrl) craft.href = CONFIG.craftUrl; else craft.hidden = true;
     }
+    /* INCYBER links open in a new tab; the URL is also in the markup as a fallback */
+    document.querySelectorAll("[data-incyber-link]").forEach(function (a) {
+      if (CONFIG.incyberUrl) a.href = CONFIG.incyberUrl;
+      a.target = "_blank"; a.rel = "noopener";
+    });
     document.getElementById("year").textContent = valid ? start.getFullYear() : new Date().getFullYear();
 
     /* Countdown */
