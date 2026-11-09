@@ -36,6 +36,7 @@
     --wrap: 1160px;
     --gutter: clamp(1.25rem, 4vw, 2.5rem);
     --section: clamp(4rem, 9vw, 7rem);
+    --facts-h: 5.125rem;   /* height of the quick-facts strip under the hero */
     color-scheme: light;
   }
 
@@ -123,7 +124,8 @@
   .hero {
     background: var(--pcb); overflow: hidden;
     display: flex; flex-direction: column;
-    min-height: calc(100vh - 4rem); min-height: calc(100svh - 4rem);
+    /* One screen minus the menu and the facts strip, so the strip shows on the first screen */
+    min-height: calc(100vh - 4rem - var(--facts-h)); min-height: calc(100svh - 4rem - var(--facts-h));
     padding-block: clamp(1.5rem, 3.5vh, 2.5rem) clamp(1.75rem, 4vh, 3rem);
   }
   .hero > .wrap { width: 100%; }
@@ -158,72 +160,66 @@
   }
 
   .hero-title { margin-top: clamp(1.25rem, 3vw, 2rem); }
+  .hero-context { color: var(--silk-muted); font-size: .95rem; margin-bottom: .6rem; }
+  .hero-context a { text-underline-offset: .2em; }
+  .hero-context a:hover { color: var(--silk); }
   /* Solid gold label so the format is the first thing people read */
   .hero-kind { display: inline-block; background: var(--gold); color: var(--pcb-deep); font-stretch: 125%; font-weight: 800; font-size: clamp(1.05rem, 1.7vw, 1.4rem); line-height: 1.2; letter-spacing: .07em; text-transform: uppercase; padding: .45rem 1rem .5rem; border-radius: 6px; margin-bottom: 1.1rem; }
   .hero h1 { color: var(--silk); }
   .hero h1 .t1 { display: block; font-size: clamp(2.75rem, min(7vw, 10vh), 5.25rem); line-height: .98; }
   .hero h1 .t2 { display: block; margin-top: .9rem; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 600; font-stretch: 110%; letter-spacing: 0; line-height: 1.2; color: var(--silk); }
-  .hero .lede { color: var(--silk-muted); max-width: 44ch; }
+  .hero .lede { color: var(--silk-muted); margin-top: 1rem; max-width: 70ch; }
 
-  /* Top of the hero: title on the left, session card on the right */
-  .hero-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem); gap: 1.75rem 3rem; align-items: end; }
-  /* Bottom of the hero: one short row with the summary and the buttons */
-  .hero-intro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem 3rem; align-items: end; }
+  .hero-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2.5rem; }
+  .hero-meta dt { font-size: .85rem; color: var(--silk-muted); }
+  .hero-meta dd { font-weight: 650; color: var(--silk); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
 
-  /* Session card: countdown on top, then the facts. The conference row is set
-     in gold, the hero's only accent besides the chain, so it stands out
-     without being any larger than the other rows. */
-  .hero-card { background: rgba(10, 42, 31, .6); border: 1px solid rgba(232, 185, 47, .4); border-radius: 14px; }
-  .countdown { padding: 1rem 1.25rem .9rem; border-bottom: 1px solid rgba(232, 185, 47, .25); }
-  .countdown-label { font-size: .85rem; color: var(--silk-muted); margin-bottom: .4rem; }
+  .countdown { border: 1px solid rgba(232, 185, 47, .4); border-radius: 14px; padding: 1.25rem 1.5rem; min-width: 18rem; }
+  .countdown-label { font-size: .9rem; color: var(--silk-muted); margin-bottom: .5rem; }
   .countdown-units { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
   .countdown-units div { display: flex; flex-direction: column; }
-  .countdown-units span { font-stretch: 125%; font-weight: 750; font-size: 1.9rem; line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
-  .countdown-units small { font-size: .78rem; color: var(--silk-muted); margin-top: .3rem; }
-  .countdown-message { font-weight: 650; font-size: 1.05rem; color: var(--silk); }
-  .hero-facts { padding: .25rem 1.25rem .4rem; }
-  .hero-facts > div { display: grid; grid-template-columns: 5.75rem minmax(0, 1fr); gap: 1rem; align-items: baseline; padding-block: .6rem; }
-  .hero-facts > div + div { border-top: 1px solid rgba(242, 244, 238, .12); }
-  .hero-facts dt { font-size: .85rem; color: var(--silk-muted); }
-  .hero-facts dd { font-weight: 650; line-height: 1.35; color: var(--silk); }
-  .hero-facts a { color: var(--gold); text-underline-offset: .2em; }
-  .hero-facts small { display: block; margin-top: .15rem; font-size: .9rem; font-weight: 500; color: var(--silk-muted); }
+  .countdown-units span { font-stretch: 125%; font-weight: 750; font-size: 2.25rem; line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .countdown-units small { font-size: .8rem; color: var(--silk-muted); margin-top: .35rem; }
+  .countdown-message { font-weight: 650; font-size: 1.1rem; color: var(--silk); }
 
   @media (max-width: 860px) {
-    .hero-head { grid-template-columns: 1fr; }
-    .hero-card { max-width: 28rem; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .countdown { min-width: 0; max-width: 24rem; }
   }
-  /* Shorter laptop screens: tighten the hero so it still fits in one screen */
+  /* Shorter laptop screens: tighten the hero so it and the facts strip fit in one screen */
   @media (min-width: 861px) and (max-height: 820px) {
+    .hero { padding-block: 1rem 1.25rem; }
+    .hero h1 .t1 { font-size: clamp(2.75rem, min(7vw, 9vh), 5.25rem); }
+    .hero-context { margin-bottom: .4rem; }
+    .hero .chain { margin-block: .75rem; }
     .hero-title { margin-top: .75rem; }
     .hero-kind { margin-bottom: .75rem; }
-    .hero h1 .t2 { margin-top: .6rem; }
-    .countdown { padding: .75rem 1.25rem .7rem; }
-    .countdown-units span { font-size: 1.6rem; }
-    .hero-facts > div { padding-block: .45rem; }
-  }
-  /* Phones: the countdown is dropped so the buttons stay near the first screen */
-  @media (max-width: 560px) {
-    .hero .countdown { display: none; }
-    .hero-facts { padding-inline: 1rem; }
-    .countdown { padding-inline: 1rem; }
-    .hero-facts > div { grid-template-columns: 4.6rem minmax(0, 1fr); gap: .6rem; padding-block: .45rem; }
-    .hero-facts dt { font-size: .8rem; }
-    .hero-facts dd { font-size: .95rem; }
-    .hero-facts small { font-size: .85rem; }
-    .hero-title { margin-top: 1rem; }
-    .hero-kind { margin-bottom: .75rem; }
+    .hero .lede { margin-top: .6rem; }
     .hero h1 .t2 { margin-top: .5rem; }
-    .hero .lede { font-size: 1.05rem; }
-    .chain { margin-block: 1rem; }
+    .hero-actions { margin-top: .9rem; }
+    .countdown { padding: .8rem 1.25rem; }
+    .countdown-units span { font-size: 1.85rem; }
+  }
+  /* Very short screens (720px and below) */
+  @media (min-width: 861px) and (max-height: 740px) {
+    .hero .chain { margin-block: .4rem; }
+    .hero .chain svg { height: clamp(56px, 10vh, 140px); }
+    .hero-kind { margin-bottom: .6rem; }
+  }
+  /* Phones: compact label/value rows so the buttons stay on the first screen */
+  @media (max-width: 560px) {
+    .hero-meta { grid-template-columns: 1fr; gap: .4rem; }
+    .hero-meta > div { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); align-items: baseline; }
+    .hero-actions { margin-top: 1.25rem; }
   }
 
   /* The chain: a full-bleed band that runs off both edges of the screen.
      "slice" keeps a fixed height and crops the sides, so the broken link
      (always in the middle) stays large on every screen size. */
-  .chain { flex: 1 0 auto; display: flex; align-items: center; margin: clamp(1.25rem, 4.5vh, 3.5rem) 0; }
-  .chain svg { display: block; width: 100%; height: clamp(64px, min(11vw, 15vh), 150px); overflow: visible; }
+  .chain { flex: 1 0 auto; display: flex; align-items: center; margin: clamp(1rem, 3.5vh, 3rem) 0; }
+  .chain svg { display: block; width: 100%; height: clamp(56px, min(11vw, 12vh), 140px); overflow: visible; }
   .chain .link { fill: none; stroke: var(--gold); stroke-width: 12; }
   .chain .bar { fill: var(--gold); stroke: var(--pcb); stroke-width: 5; }
   .chain .broken { fill: none; stroke: var(--alert); stroke-width: 12; transform-box: fill-box; transform-origin: center; }
@@ -236,14 +232,19 @@
 
   /* ---------- Quick facts ---------- */
   .facts { background: var(--surface); border-bottom: 1px solid var(--rule); }
-  .facts dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .facts dl > div { padding: 1.4rem 1.25rem 1.4rem 0; }
-  .facts dl > div + div { padding-left: 1.25rem; border-left: 1px solid var(--rule); }
+  /* "auto" columns start at their content width and share the spare room
+     equally, so short values stay compact and long ones stay on one line */
+  .facts dl { display: grid; grid-template-columns: repeat(4, auto); }
+  .facts dl > div { padding: 1.1rem 1.5rem 1.1rem 0; }
+  .facts dl > div + div { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  .facts dl > div:last-child { padding-right: 0; }
   .facts dt { font-size: .85rem; color: var(--muted); }
   .facts dd { font-weight: 650; line-height: 1.35; }
+  .facts a { color: var(--accent); text-underline-offset: .2em; }
   @media (max-width: 900px) {
+    :root { --facts-h: 10rem; }
     .facts dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .facts dl > div, .facts dl > div + div { padding: 1rem 1rem 1rem 0; border-left: 0; border-top: 1px solid var(--rule); }
+    .facts dl > div, .facts dl > div + div { padding: .9rem 1rem .9rem 0; border-left: 0; border-top: 1px solid var(--rule); }
     .facts dl > div:nth-child(-n+2) { border-top: 0; }
     .facts dl > div:nth-child(even) { padding-left: 1.25rem; border-left: 1px solid var(--rule); }
   }
@@ -402,41 +403,20 @@
   <!-- 2. Hero -->
   <section class="hero on-dark" id="top" aria-labelledby="title">
     <div class="wrap hero-top">
-      <div class="hero-head">
-        <div>
-          <div class="logos logos-plate">
-            <img src="assets/craft-logo.png" alt="CRAFT" class="logo-craft" data-fallback="logo-craft">
-            <span class="logo-divider" aria-hidden="true"></span>
-            <img src="assets/uwaterloo-logo.png" alt="University of Waterloo" class="logo-uw" data-fallback="logo-uw">
-          </div>
+      <div class="logos logos-plate">
+        <img src="assets/craft-logo.png" alt="CRAFT" class="logo-craft" data-fallback="logo-craft">
+        <span class="logo-divider" aria-hidden="true"></span>
+        <img src="assets/uwaterloo-logo.png" alt="University of Waterloo" class="logo-uw" data-fallback="logo-uw">
+      </div>
 
-          <div class="hero-title">
-            <p class="hero-kind">Tabletop exercise</p>
-            <h1 id="title" class="display">
-              <span class="t1">Broken Chains</span>
-              <span class="t2">Malicious Actors in the Supply Chain</span>
-            </h1>
-          </div>
-        </div>
-
-        <aside class="hero-card" aria-label="Session details">
-          <div class="countdown" id="countdown" hidden>
-            <p class="countdown-label" id="countdown-label">Starts in</p>
-            <div class="countdown-units" id="countdown-units">
-              <div><span data-unit="days">00</span><small>days</small></div>
-              <div><span data-unit="hours">00</span><small>hours</small></div>
-              <div><span data-unit="minutes">00</span><small>minutes</small></div>
-              <div><span data-unit="seconds">00</span><small>seconds</small></div>
-            </div>
-            <p class="countdown-message" id="countdown-message" hidden></p>
-          </div>
-          <dl class="hero-facts">
-            <div><dt>Date</dt><dd data-fill="date">[Date]</dd></div>
-            <div><dt>Time</dt><dd data-fill="time">[Start–end time]</dd></div>
-            <div><dt>Place</dt><dd data-fill="venue">[Room, venue, city]</dd></div>
-            <div><dt>Conference</dt><dd><a href="https://canada.forum-incyber.com/" data-incyber-link><span data-fill="conference">INCYBER 2026</span></a><small>Conference registration required</small></dd></div>
-          </dl>
-        </aside>
+      <div class="hero-title">
+        <p class="hero-context">A CRAFT session at <a href="https://canada.forum-incyber.com/" data-incyber-link><span data-fill="conference">INCYBER 2026</span></a></p>
+        <p class="hero-kind">Tabletop exercise</p>
+        <h1 id="title" class="display">
+          <span class="t1">Broken Chains</span>
+          <span class="t2">Malicious Actors in the Supply Chain</span>
+        </h1>
+        <p class="lede">A 2-hour interactive exercise of hardware and firmware supply-chain attacks.</p>
       </div>
     </div>
 
@@ -464,11 +444,29 @@
     </figure>
 
     <div class="wrap hero-bottom">
-      <div class="hero-intro">
-        <p class="lede">A 2-hour interactive exercise of hardware and firmware supply-chain attacks.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#register" data-register>Register now</a>
-          <a class="btn btn-ghost" href="#how">How it works</a>
+      <div class="hero-grid">
+        <div>
+          <dl class="hero-meta">
+            <div><dt>Date</dt><dd data-fill="date">[Date]</dd></div>
+            <div><dt>Time</dt><dd data-fill="time">[Start–end time]</dd></div>
+            <div><dt>Place</dt><dd data-fill="venue">[Room, venue, city]</dd></div>
+          </dl>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#register" data-register>Register now</a>
+            <a class="btn btn-ghost" href="#how">How it works</a>
+          </div>
+        </div>
+
+        <div class="countdown" id="countdown" hidden>
+          <p class="countdown-label" id="countdown-label">Starts in</p>
+          <div class="countdown-units" id="countdown-units">
+            <div><span data-unit="days">00</span><small>days</small></div>
+            <div><span data-unit="hours">00</span><small>hours</small></div>
+            <div><span data-unit="minutes">00</span><small>minutes</small></div>
+            <div><span data-unit="seconds">00</span><small>seconds</small></div>
+          </div>
+          <p class="countdown-message" id="countdown-message" hidden></p>
         </div>
       </div>
     </div>
@@ -480,7 +478,7 @@
       <dl>
         <div><dt>Length</dt><dd>120 minutes</dd></div>
         <div><dt>Format</dt><dd>Interactive, team-based</dd></div>
-        <div><dt>Preparation</dt><dd>None needed</dd></div>
+        <div><dt>Admission</dt><dd><a href="https://canada.forum-incyber.com/" data-incyber-link>INCYBER 2026</a> registration</dd></div>
         <div><dt>Best for</dt><dd>Decision makers and managers</dd></div>
       </dl>
     </div>
@@ -638,8 +636,8 @@
           <p>You’ll see first-hand the challenges industry faces, and where new work is needed.</p>
         </div>
         <div class="note">
-          <h3>Prerequisites</h3>
-          <p>No technical background needed. You’ll need INCYBER 2026 registration to enter the venue.</p>
+          <h3>What to bring</h3>
+          <p>You’ll need INCYBER 2026 registration to enter the venue. No preparation required for excercise.</p>
         </div>
       </div>
     </div>
@@ -691,8 +689,8 @@
           <dl>
             <div><dt>Date</dt><dd data-fill="date">[Date]</dd></div>
             <div><dt>Time</dt><dd><span data-fill="time">[Start–end time]</span> (120 minutes)</dd></div>
-            <div><dt>Location</dt><dd><span data-fill="venue">[Room, building, address]</span>, at the <span data-fill="conference">INCYBER 2026</span> conference</dd></div>
-            <div><dt>What to bring</dt><dd>Nothing. No preparation required.</dd></div>
+            <div><dt>Location</dt><dd><span data-fill="venue">[Room, building, address]</span>, INCYBER</dd></div>
+            <div><dt>Prerequisites</dt><dd>No technical background needed.</dd></div>
           </dl>
           <a class="btn btn-primary" href="#register" data-register>Register now</a>
         </div>
