@@ -295,6 +295,7 @@
   .note { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 1.5rem; }
   .note h3 { margin-bottom: .4rem; }
   .note p { color: var(--muted); }
+  .note a { color: var(--accent); font-weight: 650; text-underline-offset: .2em; }
   @media (max-width: 820px) { .audience-grid { grid-template-columns: 1fr; } }
 
   /* Presenter */
@@ -339,11 +340,11 @@
   @media (max-width: 480px) { .methods { grid-template-columns: 1fr; } }
 
   /* Register */
-  /* Heading spans both columns; the note and the card stretch to the same height */
-  .register-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 1.5rem 2.5rem; align-items: stretch; }
-  /* Two-step note: conference registration first, then the session seat */
+  /* The note and the card stretch to the same height */
+  .register-grid { display: grid; grid-template-columns: 6fr 5fr; gap: 1.5rem 2.5rem; align-items: stretch; }
+  /* Two-step note: reserve the session seat first, then register the access code with INCYBER */
   .access-note { display: flex; flex-direction: column; align-items: flex-start; background: var(--surface); border-left: 4px solid var(--accent); padding: 1.5rem 1.75rem 1.75rem; border-radius: 0 14px 14px 0; }
-  .access-note ol { margin-bottom: 1.5rem; }
+  .access-note ol { margin-bottom: 1rem; }
   .access-note .btn { margin-top: auto; }
   .btn-outline { border-color: var(--accent); color: var(--accent); }
   .btn-outline:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
@@ -351,6 +352,14 @@
   .access-note ol { list-style: decimal; padding-left: 1.2rem; color: var(--muted); }
   .access-note li + li { margin-top: .6rem; }
   .access-note strong { color: var(--ink); }
+  /* Entry warning: uses the broken-link colour so it stands apart from the steps */
+  .access-warning {
+    margin-bottom: 1.5rem; padding: .85rem 1rem;
+    border-left: 3px solid var(--alert); border-radius: 0 8px 8px 0;
+    background: color-mix(in srgb, var(--alert) 10%, transparent);
+    color: var(--ink);
+  }
+  .access-note .access-warning strong { color: var(--alert); }
   .details { display: flex; flex-direction: column; align-items: flex-start; background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: .5rem 1.75rem 1.75rem; }
   .details dl { width: 100%; margin-bottom: 1.5rem; }
   .details dl div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); }
@@ -453,7 +462,8 @@
           </dl>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#register" data-register>Register now</a>
+            <!-- Goes to the Register section first, so people read the access steps before booking -->
+            <a class="btn btn-primary" href="#register">Register now</a>
             <a class="btn btn-ghost" href="#how">How it works</a>
           </div>
         </div>
@@ -478,7 +488,7 @@
       <dl>
         <div><dt>Length</dt><dd>120 minutes</dd></div>
         <div><dt>Format</dt><dd>Interactive, team-based</dd></div>
-        <div><dt>Admission</dt><dd><a href="https://canada.forum-incyber.com/" data-incyber-link>INCYBER 2026</a> registration</dd></div>
+        <div><dt>Admission</dt><dd>Free <a href="https://canada.forum-incyber.com/" data-incyber-link>INCYBER 2026</a> registration</dd></div>
         <div><dt>Best for</dt><dd>Decision makers and managers</dd></div>
       </dl>
     </div>
@@ -636,8 +646,8 @@
           <p>You’ll see first-hand the challenges industry faces, and where new work is needed.</p>
         </div>
         <div class="note">
-          <h3>What to bring</h3>
-          <p>You’ll need INCYBER 2026 registration to enter the venue. No preparation required for exercise.</p>
+          <h3>Before you arrive</h3>
+          <p>Register your INCYBER access code in advance (<a href="#register">see how</a>). No preparation is needed for the exercise itself.</p>
         </div>
       </div>
     </div>
@@ -670,20 +680,22 @@
   </section>
 
   <!-- Register -->
-  <section class="section" id="register" aria-labelledby="register-title">
+  <section class="section" aria-labelledby="register-title">
     <div class="wrap">
-      <div class="section-head">
+      <!-- Anchor target sits on the heading, so "Register" links land just below the menu with the cards in view -->
+      <div class="section-head" id="register">
         <h2 id="register-title">Save your seat</h2>
         <p class="measure">The exercise is hands-on and team-based, so register early to secure your place.</p>
       </div>
       <div class="register-grid">
         <div class="access-note">
-          <h3>Two registrations needed</h3>
+          <h3>Two steps to attend</h3>
           <ol>
-            <li><strong>Register for INCYBER 2026.</strong> This session is part of the conference, so you need conference registration to enter the venue.</li>
-            <li><strong>Reserve your seat in this exercise.</strong> This is a separate registration for the tabletop session only.</li>
+            <li><strong>Reserve your seat in this exercise.</strong> You’ll then receive a free INCYBER 2026 access code. The code is only for people registered for this tabletop exercise.</li>
+            <li><strong>Register your code with INCYBER 2026 before the event.</strong> Enter it on the INCYBER registration page to get your conference access.</li>
           </ol>
-          <a class="btn btn-outline" href="https://canada.forum-incyber.com/" data-incyber-link>Register for INCYBER</a>
+          <p class="access-warning"><strong>No onsite badging.</strong> Badges will not be issued at the entrance. If you haven’t registered your code with INCYBER in advance, you won’t be able to enter.</p>
+          <a class="btn btn-outline" href="https://canada.forum-incyber.com/" data-incyber-link>Register your code with INCYBER</a>
         </div>
         <div class="details">
           <dl>
@@ -692,7 +704,8 @@
             <div><dt>Location</dt><dd><span data-fill="venue">[Room, building, address]</span></dd></div>
             <div><dt>Prerequisites</dt><dd>No technical background needed.</dd></div>
           </dl>
-          <a class="btn btn-primary" href="#register" data-register>Register now</a>
+          <!-- The only button that opens the external seat registration (CONFIG.registerUrl) -->
+          <a class="btn btn-primary" href="#register" data-register>Reserve your seat</a>
         </div>
       </div>
     </div>
